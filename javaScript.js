@@ -111,25 +111,32 @@ function writeNumber(number) {
     if (number == "," && isthereProcent == true && isThereComma == true && block == false && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '.' && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 2) == '0') {
         isThereComma = false;
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 2)
+        //zabiera przecinek ale tylko jeśli jest za znakiem %
     } else if (number == "," && isThereComma == false && block == false && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%') {
         isThereComma = true;
         tmpComma = true;
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat("0.");
+        //dodaje przecinek dokładnie to 0. po % 
     } else if (number == "," && isThereComma == false && block == false) {
+        //dodaje przecinek
         isThereComma = true;
         tmpComma = true;
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat(".");
     } else if (number != "," && bottomNumbers.innerHTML == "0" && block == false) {
         bottomNumbers.innerHTML = number.toString();
+       //wpisywanie liczby jeśli na początku jest zero
     } else if (number != "," && bottomNumbers.innerHTML != "0" && block == false) {
+        //wpisywanie liczb klawiatura/myszka
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat(number.toString());
     } else if (number == "," && bottomNumbers.innerHTML == "0." && block == false && isThereComma == true) {
         bottomNumbers.innerHTML = "0";
         isThereComma = false;
-        //zabiera , jesli jest 
+        //zabiera przecinek gdy mamy zero na dolnej lini
     } else if (number == "," && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '.' && bottomNumbers.innerHTML.length >= 2 && isThereComma == true) {
         isThereComma = false;
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 1)
+        //jeśli mamy kilka liczb i zabieramy przecinek
+        
     }
 }
 
@@ -137,12 +144,14 @@ function procent() {
     //obliczanie procentów
     if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && isThereComma == true && isthereProcent == true) {
         return (parseFloat(bottomNumbers.innerHTML) / 100).toString();
+        //zwykly procent z liczby
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && isThereComma == false && isthereProcent == true) {
         return (parseInt(bottomNumbers.innerHTML) / 100).toString();
+        //zwykly procent z liczby no ale ,
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == true && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
         let numb = (bottomNumbers.innerHTML).split("%");
-        return (Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 1000000) / 1000000).toString();
+        return (Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 10000) / 10000).toString();
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == false && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
         let numb = (bottomNumbers.innerHTML).split("%");
@@ -150,21 +159,22 @@ function procent() {
     }
 }
 
-// function makeComma() {
-//     let commas = calculations.split(".");
-//     console.log(commas)
-//     let xd = "";
-//     for (let i = 0; i < commas.length; i++) {
-//         if (i == 0) {
-//             xd += commas[i]
-//         } else if (i == commas.length) {
-//             xd += commas[i]
-//         } else {
-//             xd += "." + commas[i]
-//         }
-//         // xd = comas[i] + '.'
-//     }
-//     console.log(xd);
-//     console.log(eval(xd))
+function makeComma() {
+    let commas = calculations.split(".");
+    console.log(commas)
+    let xd = "";
+    for (let i = 0; i < commas.length; i++) {
+        if (i == 0) {
+            xd += commas[i]
+        } else if (i == commas.length) {
+            xd += commas[i]
+        } else {
+            xd += "." + commas[i]
+        }
+        // xd = comas[i] + '.'
+    }
+    console.log(xd);
+    // console.log(eval(xd))
+    calculations = xd;
 
-// }
+}
