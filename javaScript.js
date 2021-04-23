@@ -120,9 +120,13 @@ function writeNumber(number) {
         bottomNumbers.innerHTML = number.toString();
     } else if (number != "," && bottomNumbers.innerHTML != "0" && block == false) {
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat(number.toString());
-    } else if (number == "," && bottomNumbers.innerHTML == "0." && block == false) {
+    } else if (number == "," && bottomNumbers.innerHTML == "0." && block == false && isThereComma == true) {
         bottomNumbers.innerHTML = "0";
         isThereComma = false;
+        //zabiera , jesli jest 
+    }else if(number == "," && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '.' && bottomNumbers.innerHTML.length >2 && isThereComma == true){
+        isThereComma = false;
+        bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 1)
     }
 }
 
