@@ -49,7 +49,8 @@ function operationalSigns(sign) {
             bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 1)
             isthereProcent = false;
         }
-    } else if (sign == "=" || sign == "Enter" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "=" || sign == "Enter" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false) {
+    } else if (sign == "Enter" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "Enter" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false ||
+        sign == "="  && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "=" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false) {
         //obliczanie wyniku
         let result;
         if (isthereProcent == true && topNumbers.innerHTML == "") {
@@ -58,8 +59,10 @@ function operationalSigns(sign) {
         } else if (isthereProcent == true) {
             //jesli jest procent to uzywam funkcji która sprawdza i oddaje odpowiednia liczbe
             result = eval(calculations.concat(procent()));
-        } else if (isthereProcent == false) {
-            // po prostu obliczam wynik
+        } else if (isthereProcent == false && calculations.charAt(calculations.length-2) == '/' ||isthereProcent == false && calculations.charAt(calculations.length-2) == '*') {
+            result = "Nie wolno przez 0"
+            //jesli chcemy podzielic przez 0
+        }else if(isthereProcent == false ){
             result = eval(calculations.concat(bottomNumbers.innerHTML));
         }
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + " = ") // dodaje = na koniec kodu w górnej linii
@@ -124,7 +127,7 @@ function writeNumber(number) {
         bottomNumbers.innerHTML = "0";
         isThereComma = false;
         //zabiera , jesli jest 
-    }else if(number == "," && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '.' && bottomNumbers.innerHTML.length >2 && isThereComma == true){
+    } else if (number == "," && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '.' && bottomNumbers.innerHTML.length >= 2 && isThereComma == true) {
         isThereComma = false;
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 1)
     }
@@ -146,3 +149,22 @@ function procent() {
         return (Math.round(((parseInt(numb[0]) / 100) * parseInt(numb[1])) * 1000000) / 1000000).toString();
     }
 }
+
+// function makeComma() {
+//     let commas = calculations.split(".");
+//     console.log(commas)
+//     let xd = "";
+//     for (let i = 0; i < commas.length; i++) {
+//         if (i == 0) {
+//             xd += commas[i]
+//         } else if (i == commas.length) {
+//             xd += commas[i]
+//         } else {
+//             xd += "." + commas[i]
+//         }
+//         // xd = comas[i] + '.'
+//     }
+//     console.log(xd);
+//     console.log(eval(xd))
+
+// }
