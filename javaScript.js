@@ -2,7 +2,7 @@ const bottomNumbers = document.getElementById("tmpNumbers"),
     topNumbers = document.getElementById("topTmpNumbers");
 let isThereComma = false; // czy jest przecinek
 let isthereProcent = false; // czy jest procent
-let calculations = "0"; //obliczenia nie widoczne
+let calculations = ""; //obliczenia nie widoczne
 let tmpComma = false; // zapamietuje na stałe czy byl przecinek uzyty
 let block = false; // jeśli mamy wynik to blokuje przyciski do póki nie zresetujemy go "C"
 window.addEventListener('click', (el) => {
@@ -58,6 +58,9 @@ function operationalSigns(sign) {
             result = eval(calculations.concat(procent()));
         } else if (isthereProcent == false) {
             // po prostu obliczam wynik
+            console.log('tutaj blond')
+            console.log(bottomNumbers.innerHTML)
+            console.log(calculations.concat(bottomNumbers.innerHTML))
             result = eval(calculations.concat(bottomNumbers.innerHTML));
         }
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + " = ") // dodaje = na koniec kodu w górnej linii
@@ -75,7 +78,7 @@ function operationalSigns(sign) {
     } else if (sign == "c" || sign == "C") {
         //usuwa wszystko
         block = false;
-        calculations = "0";
+        calculations = "";
         isthereProcent = false;
         isThereComma = false;
          tmpComma = false
@@ -84,16 +87,18 @@ function operationalSigns(sign) {
     }
 
     if (choosenSign != undefined) {
+        console.log(calculations)
         console.log(choosenSign)
         if (isthereProcent == true) {
             //obliczam procent odpowiedni i dodaje do obliczeń niewidocznych 
-            calculations = topNumbers.innerHTML.concat(procent() + choosenSign);
+            calculations = calculations.concat(procent() + choosenSign);
             isthereProcent = false;
         } else if (isthereProcent == false) {
             //po prostu dodaje do obliczeń niewidocznych
-            calculations = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + choosenSign);
+            calculations = calculations.concat(bottomNumbers.innerHTML + choosenSign);
         }
         console.log(calculations)
+        console.log('XD')
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + choosenSign) // wyświetlam zmiany na górze
         bottomNumbers.innerHTML = "0" // zeruje dolną linie
         isThereComma = false;

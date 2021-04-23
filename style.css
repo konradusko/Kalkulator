@@ -137,3 +137,13 @@
     overflow: hidden;
     
 }
+@media only screen and (max-width: 350px) {
+   .container_calculator{
+       width:100%;
+   }
+}
+@media only screen and (max-height: 500px){
+    .container_calculator{
+        height:100%;
+    }
+}
