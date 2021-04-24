@@ -61,13 +61,13 @@ function operationalSigns(sign) {
             //tylko to nie dziala
             //jesli jest procent to uzywam funkcji która sprawdza i oddaje odpowiednia liczbe
             calculations = makeComma(calculations.concat(procent())); // ostatnie połączenie tego co na górze z dolnymi liczbami
-            result = (eval(calculations)).toString();
+            result = ((eval(calculations)).toFixed(8)).toString();
         } else if (isthereProcent == false && calculations.charAt(calculations.length - 2) == '/' && bottomNumbers.innerHTML == "0" || isthereProcent == false && calculations.charAt(calculations.length - 2) == '*' && bottomNumbers.innerHTML == "0") {
             result = "Nie wolno przez 0"
             //jesli chcemy podzielic/przemnożyć przez 0
         } else if (isthereProcent == false) {
             calculations = makeComma(calculations.concat(bottomNumbers.innerHTML)) ;// ostatnie połączenie tego co na górze z dolnymi liczbami // zamieniamy . na , uzywajac makeComma
-            result = (eval(calculations)).toString();
+            result = ((eval(calculations)).toFixed(8)).toString();
         }
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + " = ") // dodaje = na koniec kodu w górnej linii
         let splitDot = result.split('.')
