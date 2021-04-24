@@ -56,24 +56,26 @@ function operationalSigns(sign) {
         let result;
         if (isthereProcent == true && topNumbers.innerHTML == "") {
             //obliczanie samego procenta
-            result = (procent()).toString();
+            calculations = procent();
         } else if (isthereProcent == true) {
             //tylko to nie dziala
             //jesli jest procent to uzywam funkcji która sprawdza i oddaje odpowiednia liczbe
             calculations = makeComma(calculations.concat(procent())); // ostatnie połączenie tego co na górze z dolnymi liczbami
-            result = ((eval(calculations)).toFixed(8)).toString();
         } else if (isthereProcent == false && calculations.charAt(calculations.length - 2) == '/' && bottomNumbers.innerHTML == "0" || isthereProcent == false && calculations.charAt(calculations.length - 2) == '*' && bottomNumbers.innerHTML == "0") {
             result = "Nie wolno przez 0"
             //jesli chcemy podzielic/przemnożyć przez 0
         } else if (isthereProcent == false) {
             calculations = makeComma(calculations.concat(bottomNumbers.innerHTML)) ;// ostatnie połączenie tego co na górze z dolnymi liczbami // zamieniamy . na , uzywajac makeComma
-            result = ((eval(calculations)).toFixed(8)).toString();
         }
+        result = (Math.round(parseFloat(eval(calculations)) * 100000000) / 100000000).toString();//ograniczam i zaokraglam liczby
+        result = result.replace(/\.?0+$/, '');//pozbywam sie zer niechcianych
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + " = ") // dodaje = na koniec kodu w górnej linii
         let splitDot = result.split('.')
         if(splitDot[1] != undefined){
             //jesli nie bedzie przecinka to zeby nie dzielilo
             result = splitDot[0] + ',' + splitDot[1];
+        }else if(result.length == 0){
+            result = "0"
         }
          //wyświetlam wynik
         bottomNumbers.innerHTML = result;
@@ -152,27 +154,26 @@ function writeNumber(number) {
 }
 
 function procent() {
+    //Math.round(liczba * 100000000) / 100000000 zaokraglam do 8 miejsca po przecinku
     //tutaj jeszcze zamienic przecinek
     //obliczanie procentów
     globalBlockProcent= true;
     let tmp = bottomNumbers.innerHTML;
      tmp = makeComma(tmp);
     if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && tmpComma == true && isthereProcent == true) {
-        return ((parseFloat(tmp) / 100).toFixed(8)).toString();
+      return ( Math.round((parseFloat(tmp) / 100) * 100000000) / 100000000).toString();
         //zwykly procent z liczby
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && tmpComma == false && isthereProcent == true) {
-        return ((parseInt(tmp) / 100).toFixed(8)).toString();
+       return ( Math.round((parseInt(tmp) / 100) * 100000000) / 100000000).toString();
         //zwykly procent z liczby no ale ,
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == true && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
         let numb = (tmp).split("%");
-        return ((((parseFloat(numb[0]) / 100) * parseFloat(numb[1]))).toFixed(8)).toString();
-        // return (Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 10000000) / 10000000).toString();
+        return ( Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 100000000) / 100000000).toString();
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == false && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
         let numb = (tmp).split("%");
-        return ((((parseInt(numb[0]) / 100) * parseInt(numb[1]))).toFixed(8)).toString();
-        // return (Math.round(((parseInt(numb[0]) / 100) * parseInt(numb[1])) * 1000000) / 1000000).toString();
+        return ( Math.round(((parseInt(numb[0]) / 100) * parseInt(numb[1])) * 100000000) / 100000000).toString();
     }
 }
 
