@@ -44,13 +44,12 @@
     font-size: 20px;
     border: none;
     color: #4d4d4d;
-    background: linear-gradient(288deg, rgba(251, 251, 251, 1) 23%, rgba(233, 233, 233, 1) 74%);
+    background: linear-gradient(288deg,rgba(233, 233, 233, 1) 23% , rgba(251, 251, 251, 1) 73%);
     cursor: pointer;
     border: 1px solid rgba(208, 208, 218, 0.25);
     font-weight: lighter;
     opacity:.9;
     outline: none;
-    /* display:flex; */
 }
 .BTNStrongComma{
     display:flex;
@@ -79,7 +78,7 @@ font-size:30px;
 .specialPinkBTN {
     flex: 2;
     background: #e62e89;
-    color: #f5f5f5;
+    color: white;
     border: 1px solid #e62e89;
 }
 
