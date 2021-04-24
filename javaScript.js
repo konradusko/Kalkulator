@@ -8,7 +8,7 @@ let block = false; // jeśli mamy wynik to blokuje przyciski do póki nie zreset
 let globalBlockProcent = false;
 window.addEventListener('click', (el) => {
     //klikanie myszką
-    if (el.target.className == "button") {
+    if (el.target.className == "button" || el.target.className == "button BTNStrongComma" || el.target.className == "StrongComma") {
         //tutaj dodawanie odrazu liczby z przycisku
         writeNumber(el.target.textContent);
     } else if (el.target.className == "button signButton" && el.target.textContent == "/" || el.target.className == "line" || el.target.className == "spanPlus_minusBTN") {

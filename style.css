@@ -50,8 +50,17 @@
     font-weight: lighter;
     opacity:.9;
     outline: none;
+    /* display:flex; */
 }
-
+.BTNStrongComma{
+    display:flex;
+}
+.button .StrongComma{
+line-height: calc(100% - 50px);
+margin:auto;
+height:20px;
+font-size:30px;
+}
 .button:hover {
     background: linear-gradient(288deg, rgba(249, 249, 249, 1) 23%, rgba(242, 242, 242, 1) 74%);
 }
