@@ -68,15 +68,18 @@ function operationalSigns(sign) {
         } else if (isthereProcent == false) {
             calculations = makeComma(calculations.concat(bottomNumbers.innerHTML)) ;// ostatnie połączenie tego co na górze z dolnymi liczbami // zamieniamy . na , uzywajac makeComma
         }
-        result = (Math.round(parseFloat(eval(calculations)) * 100000000) / 100000000).toString();//ograniczam i zaokraglam liczby
-        result = result.replace(/\.?0+$/, '');//pozbywam sie zer niechcianych
+        calculations = eval(calculations);
+        result = (Math.round(parseFloat(calculations) * 100000000) / 100000000).toString();//ograniczam i zaokraglam liczby
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + " = ") // dodaje = na koniec kodu w górnej linii
         let splitDot = result.split('.')
         if(splitDot[1] != undefined){
             //jesli nie bedzie przecinka to zeby nie dzielilo
             result = splitDot[0] + ',' + splitDot[1];
+            result = result.replace(/\.?0+$/, '');//pozbywam sie zer niechcianych
         }else if(result.length == 0){
             result = "0"
+        }else {
+            result = calculations;
         }
          //wyświetlam wynik
         bottomNumbers.innerHTML = result;
@@ -119,7 +122,9 @@ function operationalSigns(sign) {
         tmpComma = false;
     }
 }
-
+function result(){
+    
+}
 function writeNumber(number) {
     //wpisywanie numerów w dolnej linii
      if (number == "," && isthereProcent == true && isThereComma == true && block == false && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == ',' && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 2) == '0') {
