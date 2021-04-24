@@ -5,6 +5,7 @@ let isthereProcent = false; // czy jest procent
 let calculations = ""; //obliczenia nie widoczne
 let tmpComma = false; // zapamietuje na stałe czy byl przecinek uzyty
 let block = false; // jeśli mamy wynik to blokuje przyciski do póki nie zresetujemy go "C"
+let globalBlockProcent = false;
 window.addEventListener('click', (el) => {
     //klikanie myszką
     if (el.target.className == "button") {
@@ -39,7 +40,7 @@ function operationalSigns(sign) {
         choosenSign = " / ";
     } else if (sign == "x" && bottomNumbers.innerHTML != 0 && block == false || sign == "X" && bottomNumbers.innerHTML != 0 && block == false || sign == "*" && bottomNumbers.innerHTML != 0 && block == false) {
         choosenSign = " * ";
-    } else if (sign == "%" && bottomNumbers.innerHTML != 0 && block == false) {
+    } else if (sign == "%" && bottomNumbers.innerHTML != 0 && block == false && globalBlockProcent == false) {
         //dodaje % przy liczbie badź go odejmuje
         if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && isthereProcent == false) {
             bottomNumbers.innerHTML = bottomNumbers.innerHTML + "%"
@@ -50,23 +51,28 @@ function operationalSigns(sign) {
             isthereProcent = false;
         }
     } else if (sign == "Enter" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "Enter" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false ||
-        sign == "="  && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "=" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false) {
+        sign == "=" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "=" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false) {
         //obliczanie wyniku
-        console.log(calculations)
         let result;
         if (isthereProcent == true && topNumbers.innerHTML == "") {
             //obliczanie samego procenta
-            result = procent();
+            result = (procent()).toString();
         } else if (isthereProcent == true) {
+            //tylko to nie dziala
             //jesli jest procent to uzywam funkcji która sprawdza i oddaje odpowiednia liczbe
-            result = eval(calculations.concat(procent()));
-        } else if (isthereProcent == false && calculations.charAt(calculations.length-2) == '/' && bottomNumbers.innerHTML == "0" ||isthereProcent == false && calculations.charAt(calculations.length-2) == '*' && bottomNumbers.innerHTML == "0" ) {
+            calculations = makeComma(calculations.concat(procent())); // ostatnie połączenie tego co na górze z dolnymi liczbami
+            result = (eval(calculations)).toString();
+        } else if (isthereProcent == false && calculations.charAt(calculations.length - 2) == '/' && bottomNumbers.innerHTML == "0" || isthereProcent == false && calculations.charAt(calculations.length - 2) == '*' && bottomNumbers.innerHTML == "0") {
             result = "Nie wolno przez 0"
             //jesli chcemy podzielic/przemnożyć przez 0
-        }else if(isthereProcent == false ){
-            result = eval(calculations.concat(bottomNumbers.innerHTML));
+        } else if (isthereProcent == false) {
+            calculations = makeComma(calculations.concat(bottomNumbers.innerHTML)) ;// ostatnie połączenie tego co na górze z dolnymi liczbami // zamieniamy . na , uzywajac makeComma
+            result = (eval(calculations)).toString();
+
         }
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + " = ") // dodaje = na koniec kodu w górnej linii
+        let splitDot = result.split('.')
+        result = splitDot[0] + ',' + splitDot[1];
         bottomNumbers.innerHTML = result; //wyświetlam wynik
         block = true;
     } else if (sign == "+/-" && block == false) {
@@ -87,10 +93,11 @@ function operationalSigns(sign) {
         isthereProcent = false;
         isThereComma = false;
         tmpComma = false
+        globalBlockProcent= false;
         topNumbers.innerHTML = "";
         bottomNumbers.innerHTML = "0";
     }
-
+    //po wybraniu znaku przenosi liczby na gore i czyści dolna linie
     if (choosenSign != undefined) {
         if (isthereProcent == true) {
             //obliczam procent odpowiedni i dodaje do obliczeń niewidocznych 
@@ -109,23 +116,24 @@ function operationalSigns(sign) {
 
 function writeNumber(number) {
     //wpisywanie numerów w dolnej linii
-    if (number == "," && isthereProcent == true && isThereComma == true && block == false && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '.' && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 2) == '0') {
+     if (number == "," && isthereProcent == true && isThereComma == true && block == false && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == ',' && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 2) == '0') {
         isThereComma = false;
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 2)
         //zabiera przecinek ale tylko jeśli jest za znakiem %
-    } else if (number == "," && isThereComma == false && block == false && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%') {
+    } else if (number == "," && isThereComma == false && block == false && bottomNumbers.innerHTML == "-"||number == "," && isThereComma == false && block == false && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%') {
         isThereComma = true;
         tmpComma = true;
-        bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat("0.");
+        bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat("0,");
         //dodaje przecinek dokładnie to 0. po % 
+        //ew dodaje 0. jak jest sam minus
     } else if (number == "," && isThereComma == false && block == false) {
         //dodaje przecinek
         isThereComma = true;
         tmpComma = true;
-        bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat(".");
+        bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat(",");
     } else if (number != "," && bottomNumbers.innerHTML == "0" && block == false) {
         bottomNumbers.innerHTML = number.toString();
-       //wpisywanie liczby jeśli na początku jest zero
+        //wpisywanie liczby jeśli na początku jest zero
     } else if (number != "," && bottomNumbers.innerHTML != "0" && block == false) {
         //wpisywanie liczb klawiatura/myszka
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.concat(number.toString());
@@ -133,49 +141,45 @@ function writeNumber(number) {
         bottomNumbers.innerHTML = "0";
         isThereComma = false;
         //zabiera przecinek gdy mamy zero na dolnej lini
-    } else if (number == "," && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '.' && bottomNumbers.innerHTML.length >= 2 && isThereComma == true) {
+    } else if (number == "," && bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == ',' && bottomNumbers.innerHTML.length >= 2 && isThereComma == true) {
         isThereComma = false;
         bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 1)
         //jeśli mamy kilka liczb i zabieramy przecinek
-        
     }
 }
 
 function procent() {
+    //tutaj jeszcze zamienic przecinek
     //obliczanie procentów
+    globalBlockProcent= true;
+    let tmp = bottomNumbers.innerHTML;
+     tmp = makeComma(tmp);
     if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && tmpComma == true && isthereProcent == true) {
-        return (parseFloat(bottomNumbers.innerHTML) / 100).toString();
+        return (parseFloat(tmp) / 100).toString();
         //zwykly procent z liczby
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && tmpComma == false && isthereProcent == true) {
-        return (parseInt(bottomNumbers.innerHTML) / 100).toString();
+        return (parseInt(tmp) / 100).toString();
         //zwykly procent z liczby no ale ,
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == true && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
-        let numb = (bottomNumbers.innerHTML).split("%");
-        return (Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 10000) / 10000).toString();
+        let numb = (tmp).split("%");
+        return (Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 10000000) / 10000000).toString();
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == false && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
-        let numb = (bottomNumbers.innerHTML).split("%");
+        let numb = (tmp).split("%");
         return (Math.round(((parseInt(numb[0]) / 100) * parseInt(numb[1])) * 1000000) / 1000000).toString();
     }
 }
 
-// function makeComma() {
-//     let commas = calculations.split(".");
-//     console.log(commas)
-//     let xd = "";
-//     for (let i = 0; i < commas.length; i++) {
-//         if (i == 0) {
-//             xd += commas[i]
-//         } else if (i == commas.length) {
-//             xd += commas[i]
-//         } else {
-//             xd += "." + commas[i]
-//         }
-//         // xd = comas[i] + '.'
-//     }
-//     console.log(xd);
-//     // console.log(eval(xd))
-//     calculations = xd;
-
-// }
+function makeComma(obj) {
+    let commas = obj.split(",");
+    let tmp;
+    for (let i = 0; i < commas.length; i++) {
+        if (i == 0) {
+            tmp = commas[i]
+        } else {
+            tmp += "." + commas[i]
+        }
+    }
+    return tmp;
+}
