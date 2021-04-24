@@ -50,6 +50,8 @@
     font-weight: lighter;
     opacity:.9;
     outline: none;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
 }
 .BTNStrongComma{
     display:flex;
@@ -134,7 +136,6 @@ font-size:30px;
 .line_two_single_number{
     flex:2;
     display:flex;
-    font-weight: 100;
     color:#dfdfdf;
 }
 .numbers_bottom_line{
@@ -142,9 +143,10 @@ font-size:30px;
     justify-content: flex-end;
     width: 100%;
     font-size: 30px;
-    margin: auto 0 5px 0;
+    margin: auto 0 10px 0;
     overflow: hidden;
-    font-family: 'Roboto', sans-serif;
+     font-family: 'Lato', sans-serif;
+     font-weight: 400;
     
 }
 @media only screen and (max-width: 350px) {
