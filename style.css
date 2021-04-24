@@ -44,10 +44,9 @@
     font-size: 20px;
     border: none;
     color: #4d4d4d;
-    background: linear-gradient(288deg, rgba(233, 233, 233, 1) 23%, rgba(251, 251, 251, 1) 73%);
+    background: linear-gradient(307deg, rgba(233, 233, 233, 1) 23%, rgba(254,254,254,255) 73%);
     cursor: pointer;
     font-weight: lighter;
-    opacity: .9;
     outline: none;
     font-family: 'Lato', sans-serif;
 }
@@ -124,7 +123,6 @@
 .line_one_actions_on_numbers {
     flex: 1;
     color: #cb7889;
-    font-weight: bold;
     display: flex;
     overflow: hidden;
 }
@@ -151,7 +149,7 @@
     margin: auto 0 10px 0;
     overflow: hidden;
     font-family: 'Lato', sans-serif;
-    font-weight: 400;
+    font-weight: 300;
 
 }
 
