@@ -22,10 +22,12 @@ window.addEventListener('keydown', (el) => {
     //klawiatura
     if (el.key == " ") {
         return false
+    }else if(el.key == "Enter"){
+        return false
     }
     if (el.key == 0 || el.key == 1 || el.key == 2 || el.key == 3 || el.key == 4 || el.key == 5 || el.key == 6 || el.key == 7 || el.key == 8 || el.key == 9 || el.key == ",") {
         writeNumber(el.key) //numery do funkcji która je pisze
-    } else if (el.key == "Backspace" || el.key == "Enter" || el.key == "%" || el.key == "C" || el.key == "c" || el.key == "/" || el.key == "*" || el.key == "+" || el.key == "-") {
+    } else if (el.key == "Backspace" || el.key == "=" || el.key == "%" || el.key == "C" || el.key == "c" || el.key == "/" || el.key == "*" || el.key == "+" || el.key == "-") {
         operationalSigns(el.key); //wywoływanie akcji
     }
 })
@@ -50,8 +52,7 @@ function operationalSigns(sign) {
             bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 1)
             isthereProcent = false;
         }
-    } else if (sign == "Enter" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "Enter" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false ||
-        sign == "=" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "=" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false) {
+    } else if ( sign == "=" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0 && block == false || isthereProcent == true && sign == "=" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" && block == false) {
         //obliczanie wyniku
         let result;
         if (isthereProcent == true && topNumbers.innerHTML == "") {
