@@ -68,12 +68,15 @@ function operationalSigns(sign) {
         } else if (isthereProcent == false) {
             calculations = makeComma(calculations.concat(bottomNumbers.innerHTML)) ;// ostatnie połączenie tego co na górze z dolnymi liczbami // zamieniamy . na , uzywajac makeComma
             result = (eval(calculations)).toString();
-
         }
         topNumbers.innerHTML = topNumbers.innerHTML.concat(bottomNumbers.innerHTML + " = ") // dodaje = na koniec kodu w górnej linii
         let splitDot = result.split('.')
-        result = splitDot[0] + ',' + splitDot[1];
-        bottomNumbers.innerHTML = result; //wyświetlam wynik
+        if(splitDot[1] != undefined){
+            //jesli nie bedzie przecinka to zeby nie dzielilo
+            result = splitDot[0] + ',' + splitDot[1];
+        }
+         //wyświetlam wynik
+        bottomNumbers.innerHTML = result;
         block = true;
     } else if (sign == "+/-" && block == false) {
         //dodaje lub zabieram znak -
@@ -155,19 +158,21 @@ function procent() {
     let tmp = bottomNumbers.innerHTML;
      tmp = makeComma(tmp);
     if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && tmpComma == true && isthereProcent == true) {
-        return (parseFloat(tmp) / 100).toString();
+        return ((parseFloat(tmp) / 100).toFixed(8)).toString();
         //zwykly procent z liczby
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) == '%' && tmpComma == false && isthereProcent == true) {
-        return (parseInt(tmp) / 100).toString();
+        return ((parseInt(tmp) / 100).toFixed(8)).toString();
         //zwykly procent z liczby no ale ,
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == true && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
         let numb = (tmp).split("%");
-        return (Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 10000000) / 10000000).toString();
+        return ((((parseFloat(numb[0]) / 100) * parseFloat(numb[1]))).toFixed(8)).toString();
+        // return (Math.round(((parseFloat(numb[0]) / 100) * parseFloat(numb[1])) * 10000000) / 10000000).toString();
     } else if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && tmpComma == false && isthereProcent == true) {
         //obliczanie procentu z liczby od razu
         let numb = (tmp).split("%");
-        return (Math.round(((parseInt(numb[0]) / 100) * parseInt(numb[1])) * 1000000) / 1000000).toString();
+        return ((((parseInt(numb[0]) / 100) * parseInt(numb[1]))).toFixed(8)).toString();
+        // return (Math.round(((parseInt(numb[0]) / 100) * parseInt(numb[1])) * 1000000) / 1000000).toString();
     }
 }
 
