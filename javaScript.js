@@ -42,7 +42,7 @@ function operationalSigns(sign) {
         choosenSign = " / ";
     } else if (sign == "x" && bottomNumbers.innerHTML != 0  || sign == "X" && bottomNumbers.innerHTML != 0  || sign == "*" && bottomNumbers.innerHTML != 0 ) {
         choosenSign = " * ";
-    } else if (sign == "%" && bottomNumbers.innerHTML != 0  && globalBlockProcent == false) {
+    } else if (afterSum == false &&sign == "%" && bottomNumbers.innerHTML != 0  && globalBlockProcent == false) {
         //dodaje % przy liczbie badź go odejmuje
         if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && isthereProcent == false) {
             bottomNumbers.innerHTML = bottomNumbers.innerHTML + "%"
@@ -52,7 +52,7 @@ function operationalSigns(sign) {
             bottomNumbers.innerHTML = bottomNumbers.innerHTML.substring(0, bottomNumbers.innerHTML.length - 1)
             isthereProcent = false;
         }
-    } else if ( sign == "=" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0  || isthereProcent == true && sign == "=" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" ) {
+    } else if (afterSum == false &&sign == "=" && bottomNumbers.innerHTML != "-" && topNumbers.innerHTML.length > 0  || afterSum == false && isthereProcent == true && sign == "=" && bottomNumbers.innerHTML != "0" && bottomNumbers.innerHTML != "-" ) {
         //obliczanie wyniku
         let result;
         if (isthereProcent == true && topNumbers.innerHTML == "") {
