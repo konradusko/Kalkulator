@@ -42,7 +42,7 @@ function operationalSigns(sign) {
         choosenSign = " / ";
     } else if (sign == "x" && bottomNumbers.innerHTML != 0 && afterSum == false || sign == "X" && bottomNumbers.innerHTML != 0  || sign == "*" && bottomNumbers.innerHTML != 0 ) {
         choosenSign = " * ";
-    } else if (afterSum == false &&sign == "%" && bottomNumbers.innerHTML != 0  && globalBlockProcent == false) {
+    } else if (afterSum == false &&sign == "%" && bottomNumbers.innerHTML != 0 &&bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '-' && globalBlockProcent == false) {
         //dodaje % przy liczbie badź go odejmuje
         if (bottomNumbers.innerHTML.charAt(bottomNumbers.innerHTML.length - 1) != '%' && isthereProcent == false) {
             bottomNumbers.innerHTML = bottomNumbers.innerHTML + "%"
